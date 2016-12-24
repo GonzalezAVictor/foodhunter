@@ -1,0 +1,48 @@
+<ion-view view-title="Categorias">
+  <ion-content class="has-footer" >
+
+
+
+	<div ng-show="principal">
+		<label class="item item-input">
+	    <i class="icon ion-search placeholder-icon"></i>
+	    <input type="text" placeholder="Buscar restaurante" ng-model="restaurantName">
+	  </label>
+
+		<div ng-if="restaurantName.length == 0">
+			<div ng-repeat="categorie in categories" href="#">
+		  	<ion-list>
+		      	<ion-checkbox ng-click="categoriaClick( categorie.id )">{{ categorie.nombre }}</ion-checkbox>
+		    </ion-list>
+		  </div>
+		</div>
+
+		<div ng-if="restaurantName.length > 0">
+				<div ng-repeat="restautant in restaurantes | filter:restaurantName">
+					<a class="item item-thumbnail-left" href="#">
+		      	<img src="">
+		      	<h2> {{ restautant.nombre }} </h2>
+		      	<p> {{ restautant.eslogan }} </p>
+		    	</a>
+				</div>
+		</div>
+
+		  
+		<div ng-if="restaurantName.length == 0">
+		  	<button class="button button-full button-positive" ng-click="restauranteAleatorio()">
+		  		GO
+				</button>
+		</div>
+	</div>
+
+
+
+	<div ng.show="restaurantRand">
+		<img src="">
+	</div>
+
+  </ion-content>
+
+
+</ion-view>
+
