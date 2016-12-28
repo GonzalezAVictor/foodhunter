@@ -53,7 +53,13 @@ angular.module('starter.controllers', [])
   $scope.promociones = [];
 
   $scope.principal = true;
-  $scope.restaurantRand = true;
+  $scope.restaurantRand = false;
+
+  $scope.restAleatorio = [];
+  $scope.promocionesRestA = [];
+  var idRestAleatorio;
+
+
 
   // var datos_solicitud = {"id_procesos_duracion" : 'id_procesos_duracion'};
 
@@ -80,63 +86,60 @@ angular.module('starter.controllers', [])
     }
       }  );
 
-
-
-  // $http.get("http://localhost:8000/restaurantes").success(function(data){
-    // for (var i = 0; i < data['categorias'].length; i++) {
-    //   $scope.categories.push(data['categorias'][i]);
-    // }
-    // for (var i = 0; i < data['restaurantes'].length; i++) {
-    //   $scope.restaurantes.push(data['restaurantes'][i]);
-    // }
-    // for (var i = 0; i < data['promociones'].length; i++) {
-    //   $scope.promociones.push(data['promociones'][i]);
-    // }
-  // })
-  // .error(function(error){
-  //   console.log('Error');
-  // });
-
   $scope.restauranteAleatorio = function(){
+
     console.log('entra a restauranteAleatorio de controlador');
     var randomIndex =  Math.random() * (categoriesSelected.length);
     randomIndex = parseInt(randomIndex);
     randomCategory = categoriesSelected[randomIndex];
     console.log(randomCategory);
 
-    var solicitud = { 
-    // tarea : 'restaurantes',
-    tags: randomCategory
-  };
+    //pedir un restaurante com la categoria random
 
- var direccionDestino = 'http://localhost:8000/mostrarRestauranteAleatorio';
+    var direccionDestino = 'http://localhost:8000/restaurante/'+ randomCategory +'/restauranteAleatorio';
       $http( {
         url: direccionDestino,
         method: "GET",
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
-        data: solicitud
       } ).success( function ( data ) {
-        console.log("sucess");
+        console.log( "sucess" );
         console.log( data );
-      }  );
+        if (data.error == "") {        
+          $scope.restAleatorio = data.restaurante;
+          console.log($scope.restAleatorio);
+          idRestAleatorio = $scope.restAleatorio.id;
+          console.log('idra: ' + idRestAleatorio);
 
-    // getRestWtithCate();
 
-    //hacer el ajax a restaurante aleatorio de Laravel
+    var direccionDestino = 'http://localhost:8000/restaurante/'+ idRestAleatorio +'/obtenerPromociones';
+      $http( {
+        url: direccionDestino,
+        method: "GET",
+      } ).success( function ( data ) {
+        console.log( "sucess 2" );
+        console.log( data );
+        if (data.promociones.length > 0) {
+          $scope.promocionesRestA = [];
+          //si el restaurante tiene promociones
+          for (var i = 0; i < data.promociones.length; i++) {
+            $scope.promocionesRestA.push(data.promociones[i]);
+            console.log($scope.promocionesRestA);
+          };
+          console.log("sefiniti");
+        };
+      } );
+
+        };
+      } );
+    
+  $scope.principal = false;
+  $scope.restaurantRand = true;
 
   }
 
-  // function getRestWtithCate(){
-  //   console.log("-> getRestWtithCate");
+  function obtenerPromociones(){
 
-  //   for (var i = 0; i < $scope.restaurantes.length; i++) {
-  //     console.log($scope.restaurantes[i]);
+  }
 
-  //     if ($scope.restaurantes[i].) {};
-
-  //   };
-
-  // }
 
   $scope.categoriaClick = function( idCategoria ){
 

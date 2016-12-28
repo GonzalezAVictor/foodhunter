@@ -37,9 +37,30 @@
 
 
 
-	<div ng.show="restaurantRand">
-		<img src="">
-	</div>
+		<div ng-show="restaurantRand">
+
+			<div class="list card">
+			  <div class="item item-image">
+			    <img src="cover.jpg">
+			  </div>
+			</div>
+
+			<a class="item item-avatar" href="#">
+	      <img src="venkman.jpg">  <!-- imagen de la categoria que se seleccionó aleatoriamente -->
+	      <h2> {{ restAleatorio.nombre }} </h2>
+	      <p> {{ restAleatorio.horarioInicio }} - {{ restAleatorio.horarioFinal }} </p>
+	    </a>
+
+			<!-- lista de las promociones que tiene el restaurante -->
+	    <div class="list list-inset">
+	    	<div ng-repeat="promo in promocionesRestA" href="#">
+			    <div class="item">
+			      <h2>{{ promo.nombre }} // {{promo.tipo_promocion}}</h2>
+						<p> {{ promo.detalles }} </p>
+			    </div>
+			  </div>
+			</div>
+		</div>
 
   </ion-content>
 
